@@ -1,0 +1,9 @@
+---
+params:
+  google_project: (( param "Enter the project name that your BOSH will be deployed into" ))
+  google_network_name: (( param "Enter the name of the network for your BOSH" ))
+  google_subnetwork_name: (( param "Enter the name of the subnetwork for your BOSH" ))
+  google_tags: (( param "Enter the tags to be attached to your BOSH" ))
+
+  google_machine_type: n1-standard-2
+  google_disk_type: pd-standard
