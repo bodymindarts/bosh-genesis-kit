@@ -25,6 +25,6 @@ properties:
 
   google:
     project: (( grab params.google_project ))
-    json_key: (( grab params.google_json_key ))
+    json_key: (( vault meta.vault "/google:json_key" ))
   director:
     cpi_job: google_cpi

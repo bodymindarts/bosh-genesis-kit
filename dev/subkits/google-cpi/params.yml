@@ -1,6 +1,5 @@
 ---
 params:
   google_project: (( param "Enter the project name that your BOSH will be deployed into" ))
-  google_json_key: (( param "Enter your GCP credentials here" ))
 
   ntp: [169.254.169.254] # use GCP ntp
