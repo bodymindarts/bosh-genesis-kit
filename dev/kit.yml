@@ -103,8 +103,8 @@ params:
     - ask: What are your GCP credentials?
       description: The json key to authenticate to GCP
       vault: google:json_key
-    - ask: What is your GCP project?
-      description: The name of the GCP project your deployments will be deployed to
+    - ask: What is your GCP project ID?
+      description: The project ID of the GCP project your deployments will be deployed to
       param: google_project
 
   google-init:
