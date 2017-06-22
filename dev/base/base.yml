@@ -1,0 +1,72 @@
+---
+instance_groups:
+- instances: 1
+  azs: (( grab params.availability_zones ))
+  name: bosh
+  stemcell: default
+  networks:
+  - name: (( grab params.bosh_network ))
+    static_ips: [(( grab params.static_ip ))]
+  persistent_disk_pool: (( grab params.bosh_disk_pool ))
+  vm_type: (( grab params.bosh_vm_type ))
+  jobs:
+  - name: postgres
+    release: bosh
+  - name: nats
+    release: bosh
+  - name: blobstore
+    release: bosh
+  - name: director
+    release: bosh
+  - name: health_monitor
+    release: bosh
+  properties: {} # required by bosh-init until https://github.com/cloudfoundry/bosh-init/issues/71 is resolved
+
+meta:
+  vault: (( concat "secret/" params.vault ))
+
+  vcap_password: (( vault meta.vault "/vcap:password-crypt-sha512" ))
+
+  bosh:
+    blobstore:
+      agent:
+        user: blobstore-user
+        pass: (( vault meta.vault "/blobstore/agent:password" ))
+      director:
+        user: director-user
+        pass: (( vault meta.vault "/blobstore/director:password" ))
+    users:
+    - name: hm
+      username: resurrector
+      password: (( vault meta.vault "/users/hm:password" ))
+    - name: admin
+      username: admin
+      password: (( vault meta.vault "/users/admin:password" ))
+    db:
+      user: boshdb
+      pass: (( vault meta.vault "/db:password" ))
+    nats:
+      user: natsuser
+      pass: (( vault meta.vault "/nats:password" ))
+
+    registry:
+      user: registry-user
+      pass: (( vault meta.vault "/registry:password" ))
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  canary_watch_time: 30000-120000
+  update_watch_time: 30000-120000
+  serial: true
+
+releases:
+- name: bosh
+  sha1: 4da9cedbcc8fbf11378ef439fb89de08300ad091
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=261.4
+  version: 261.4
+
+stemcells:
+- alias: default
+  os: (( grab params.stemcell_os ))
+  version: (( grab params.stemcell_version ))
