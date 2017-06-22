@@ -114,6 +114,9 @@ params:
     - ask: What is your GCP subnetwork name?
       description: The name of the GCP subnetwork that your BOSH VM will be deployed on
       param: google_subnetwork_name
+    - ask: What is the availabilty zone?
+      description: The availability zone your BOSH VM will be in
+      param: google_availability_zone
     - ask: What tags should the BOSH VM receive?
       description: A list of tags that will be applied to the BOSH VM
       param: google_tags
